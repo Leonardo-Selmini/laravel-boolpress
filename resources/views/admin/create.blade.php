@@ -7,7 +7,7 @@
       <h5 class="d-inline">Create new post</h5>
     </div>
     <div class="card-body">
-      <form action="{{route("posts.store")}}" method="POST">
+      <form action="{{route("posts.store")}}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="input-group mb-3">
@@ -51,9 +51,17 @@
           @enderror
         </div>
 
-        <div class="form-group form-check">
-          <input name="posted" type="checkbox" class="form-check-input" id="posted" {{(old("posted"))? "checked" : "" }}>
-          <label class="form-check-label" for="posted">Publish</label>
+        <div class="custom-file">
+          <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="upload" name="image">
+          <label class="custom-file-label" for="upload">Choose file</label>
+          @error('image')
+            <div class="alert alert-danger">{{ $message }}</div>
+          @enderror
+        </div>
+
+        <div class="form-group form-check mt-4">
+          <input name="posted" type="checkbox" class="form-check-input @error('posted') is-invalid @enderror" id="posted" {{(old("posted"))? "checked" : "" }}>
+          <label class="form-check-label" for="posted">Publish</label> 
           @error('posted')
             <div class="alert alert-danger">{{ $message }}</div>
           @enderror

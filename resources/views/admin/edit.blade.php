@@ -7,7 +7,7 @@
       <h5 class="d-inline">Edit post</h5>
     </div>
     <div class="card-body">
-      <form action="{{route("posts.update", $post->id)}}" method="POST">
+      <form action="{{route("posts.update", $post->id)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method("PUT")
 
@@ -56,7 +56,24 @@
           @enderror
         </div>
 
-        <div class="form-group form-check">
+        <div class="form-group">
+          <input type="file" class="@error('image') is-invalid @enderror" id="upload" name="image" accept="image/*">
+          @error('image')
+            <div class="alert alert-danger">{{ $message }}</div>
+          @enderror
+          <img id="preview" src="{{asset("storage/{$post->image}")}}" alt="{{$post->name}} Photo" style="max-width: 100px;">
+          <script>
+            upload.onchange = evt => {
+              const [file] = upload.files
+              if (file) {
+                preview.src = URL.createObjectURL(file)
+                preview.alt = file.name
+              }
+            }
+          </script>
+        </div>
+
+        <div class="form-group form-check mt-4">
           @php
             $posted = old("published")? old("published") : $post->posted;
           @endphp

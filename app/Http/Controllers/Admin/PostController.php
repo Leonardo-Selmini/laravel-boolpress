@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Str;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -57,7 +58,8 @@ class PostController extends Controller
         "content" => "required|string",
         "published" => "sometimes|accepted",
         "category_id" => "nullable|exists:categories,id",
-        "tags" => "nullable|exists:tags,id"
+        "tags" => "nullable|exists:tags,id",
+        "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048"
       ]);
       // create
       $data = $request->all();
@@ -77,6 +79,11 @@ class PostController extends Controller
       $newPost->content = $data["content"];
       $newPost->posted = isset($data["posted"]);
       $newPost->category_id = $data["category_id"];
+
+      if(isset($data["image"])){
+        $pathImage = Storage::put("uploads", $data["image"]);
+        $newPost->image = $pathImage;
+      }
 
       $newPost->save();
 
@@ -156,11 +163,20 @@ class PostController extends Controller
         $post->content = $data["content"];
         $post->posted = isset($data["posted"]);
         $post->category_id = $data["category_id"];
+
+        if(isset($data["image"])){
+          Storage::delete($post->image);
+
+          $pathImage = Storage::put("uploads", $data["image"]);
+          $post->image = $pathImage;
+        }
   
         $post->save();
 
+        if(isset($data["tags"])){
         $post->tags()->sync($data["tags"]);
-
+        }
+        
         // redirect
         return redirect()->route("posts.show", $post->id);
     }

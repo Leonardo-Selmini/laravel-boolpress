@@ -12,16 +12,24 @@
       @endif
       <h6 class="card-subtitle text-muted mt-2">slug: {{$post->slug}}</h6>
     </div>
+
     <div class="card-body">
-      @if(isset($post->category))
-      <h5>Category: {{$post->category->name}}</h5>
-      @endif
-      @if(isset($post->tags))
-        @foreach ($post->tags as $tag)
-          <span class="badge badge-secondary">{{$tag->name}}</span>
-        @endforeach
-      @endif
-      <p class="card-text">{{$post->content}}</p>
+      <div class="d-flex justify-content-between">
+        <div>
+          @if(isset($post->category))
+          <h5>Category: {{$post->category->name}}</h5>
+          @endif
+          @if(isset($post->tags))
+            @foreach ($post->tags as $tag)
+              <span class="badge badge-secondary">{{$tag->name}}</span>
+            @endforeach
+          @endif
+          <p class="card-text">{{$post->content}}</p>
+        </div>
+        @if(isset($post->image))
+          <img src="{{asset("storage/{$post->image}")}}" alt="{{$post->name}} Photo" style="width: 100px;">
+        @endif
+      </div>
       <a href="{{route("posts.edit", $post->id)}}" class="d-inline">
         <button class="btn btn-link">Edit</button>
       </a>
