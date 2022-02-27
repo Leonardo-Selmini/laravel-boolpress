@@ -1,6 +1,5 @@
 <template>
 <section>
-  <h1>Home Page</h1>
   <PostsList></PostsList>
 </section>
 </template>
@@ -16,6 +15,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+section {
+  padding: 2rem 4rem;
+}
 </style>

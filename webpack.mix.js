@@ -13,8 +13,10 @@ const mix = require('laravel-mix');
 
 // compilazione backoffice
 mix.js('resources/js/admin.js', 'public/js')
-    .sass('resources/sass/admin.scss', 'public/css')
-    // compilazione frontoffice
-    .js('resources/js/front.js', 'public/js')
+    .sass('resources/sass/admin.scss', 'public/css');
+
+
+// compilazione frontoffice
+mix.js('resources/js/front.js', 'public/js')
     .sass('resources/sass/front.scss', 'public/css');
 

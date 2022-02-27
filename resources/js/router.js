@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Post from "./components/Post";
+import NotFound from "./components/NotFound";
 
 const router = new VueRouter({
     mode: "history",
@@ -24,6 +25,11 @@ const router = new VueRouter({
         path: "/posts/:slug",
         name: "Post",
         component: Post
+      },
+      {
+        path: "*",
+        name: "404-page",
+        component: NotFound
       },
     ]
 });
